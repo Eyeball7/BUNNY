@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Will You Be My Valentine?</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      overflow: hidden;
+    }
+
+    h1 {
+      color: #fff;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+      margin-bottom: 30px;
+    }
+
+    .container {
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    button {
+      padding: 15px 30px;
+      font-size: 20px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      margin: 10px;
+    }
+
+    #yesBtn {
+      background-color: #ff4d6d;
+      color: white;
+    }
+
+    #noBtn {
+      background-color: #444;
+      color: white;
+      position: absolute;
+    }
+
+    .message {
+      display: none;
+      color: white;
+      font-size: 28px;
+      font-weight: bold;
+      margin-top: 20px;
+      text-shadow: 2px 2px 10px rgba(0,0,0,0.4);
+    }
+
+    .gif {
+      display: none;
+      margin-top: 20px;
+    }
+
+    /* Floating hearts */
+    .heart {
+      position: absolute;
+      font-size: 20px;
+      color: rgba(255, 0, 80, 0.8);
+      animation: float 6s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100vh) scale(1.5);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>WILL YOU BE MY VALENTINE? 💘</h1>
+    <button id="yesBtn">YES 💖</button>
+    <button id="noBtn">NO 😒</button>
+
+    <div class="message" id="message">
+      CONGRATULATIONS YOU HAVE BEEN CHOSEN, NO REFUNDS, WITH A LIFETIME SUBSCRIPTION
+    </div>
+
+    <div class="gif" id="gif">
+      <img src="https://media.giphy.com/media/3o6ZtpxSZbQRRnwCKQ/giphy.gif" width="300" alt="Shocked Guy">
+    </div>
+  </div>
+
+  <script>
+    const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
+    const message = document.getElementById("message");
+    const gif = document.getElementById("gif");
+
+    let yesScale = 1;
+
+    // Make NO button run away
+    document.addEventListener("mousemove", (e) => {
+      const rect = noBtn.getBoundingClientRect();
+      const distance = Math.hypot(
+        e.clientX - (rect.left + rect.width / 2),
+        e.clientY - (rect.top + rect.height / 2)
+      );
+
+      if (distance < 120) {
+        const x = Math.random() * (window.innerWidth - rect.width);
+        const y = Math.random() * (window.innerHeight - rect.height);
+        noBtn.style.left = `${x}px`;
+        noBtn.style.top = `${y}px`;
+
+        yesScale += 0.1;
+        yesBtn.style.transform = `scale(${yesScale})`;
+      }
+    });
+
+    // YES button click
+    yesBtn.addEventListener("click", () => {
+      message.style.display = "block";
+      gif.style.display = "block";
+      yesBtn.style.display = "none";
+      noBtn.style.display = "none";
+    });
+
+    // Create floating hearts
+    setInterval(() => {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.innerHTML = "❤️";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.bottom = "-20px";
+      heart.style.animationDuration = (Math.random() * 3 + 3) + "s";
+      document.body.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 6000);
+    }, 300);
+  </script>
+
+</body>
+</html>
